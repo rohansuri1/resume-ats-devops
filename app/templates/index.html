@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Resume ATS Analyzer</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 180px;
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 14px;
+            background: black;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .score {
+            text-align: center;
+            font-size: 40px;
+            font-weight: bold;
+            margin: 30px;
+        }
+
+        .results {
+            display: flex;
+            gap: 20px;
+        }
+
+        .results div {
+            flex: 1;
+            padding: 20px;
+            background: #f3f4f6;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Resume ATS Analyzer</h1>
+
+    <p>
+        Upload your resume and compare it against a job description.
+    </p>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        <label>Resume (PDF)</label>
+
+        <input
+            type="file"
+            name="resume"
+            accept=".pdf"
+            required
+        >
+
+        <label>Job Description</label>
+
+        <textarea
+            name="job_description"
+            placeholder="Paste the job description here..."
+            required
+        ></textarea>
+
+        <button type="submit">
+            Analyze Resume
+        </button>
+
+    </form>
+
+
+    {% if result %}
+
+    <h2>ATS Score</h2>
+
+    <div class="score">
+        {{ result.score }}%
+    </div>
+
+    <div class="results">
+
+        <div>
+
+            <h3>✓ Matched Keywords</h3>
+
+            <ul>
+
+                {% for keyword in result.matched %}
+
+                <li>{{ keyword }}</li>
+
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+
+        <div>
+
+            <h3>✗ Missing Keywords</h3>
+
+            <ul>
+
+                {% for keyword in result.missing %}
+
+                <li>{{ keyword }}</li>
+
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+
+</html>
